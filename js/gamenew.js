@@ -37,7 +37,11 @@ const scoreCounter = (arrCards, arrScore, noCards, score) => {
 
 const playerCheckScore = (arrScore) => {
   if(arrScore.length > 1 ) {
-    if(arrScore[1] > 21) {
+    if(arrScore[0] === 21 || arrScore[1] === 21) {
+      arrScore.pop();
+      arrScore[0] = 21;
+      playerScore = arrScore[0];
+    } else if (arrScore[1] > 21) {
       arrScore.pop();
       playerScore = arrScore[0];
     } else {
@@ -55,13 +59,13 @@ const playerCheckScore = (arrScore) => {
 
 const dealerCheckScore = (arrScore) => {
   if(arrScore.length > 1 ) {
-    if(arrScore[1] > 21) {
+    if(arrScore[0] === 21 || arrScore[1] === 21) {
       arrScore.pop();
-      if(arrScore[0] > 21) {
-        dealerScore = 'BUST';
-      }else {
+      arrScore[0] = 21;
       dealerScore = arrScore[0];
-      }
+    } else if (arrScore[1] > 21) {
+      arrScore.pop();
+      dealerScore = arrScore[0];
     } else {
       dealerScore = arrScore[1];
     }
@@ -75,6 +79,5 @@ const dealerCheckScore = (arrScore) => {
   return dealerScore
 } 
 
-////////////////////////////////
-////////HIT/////////////
-////////////////////////////////
+
+

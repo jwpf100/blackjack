@@ -8,7 +8,7 @@ const cardFactory = (card, suit) => {
 const suits = ['H', 'S', 'C', 'D'];
 const faces = ['J', 'Q', 'K', 'A'];
 const numbers = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-const deckCards = [];
+let deckCards = [];
 let shuffledDeck = [];
 
 //Create (num) deck(s) of cards//
@@ -30,12 +30,12 @@ const createDeck = (num) => {
 
 const shuffleDeckTest = () => {
   shuffledDeck = [];
-  shuffledDeck.push(cardFactory('A', 'C'))
-  shuffledDeck.push(cardFactory('A', 'C'))
+  shuffledDeck.push(cardFactory('2', 'C'))
+  shuffledDeck.push(cardFactory('10', 'C'))
   shuffledDeck.push(cardFactory('5', 'C'))
   shuffledDeck.push(cardFactory('6', 'C'))
-  shuffledDeck.push(cardFactory('7', 'C'))
-  shuffledDeck.push(cardFactory('K', 'C'))
+  shuffledDeck.push(cardFactory('8', 'C'))
+  shuffledDeck.push(cardFactory('A', 'C'))
   shuffledDeck.push(cardFactory('A', 'C'))
   shuffledDeck.push(cardFactory('8', 'C'))
   return shuffledDeck;

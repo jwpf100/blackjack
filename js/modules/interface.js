@@ -23,6 +23,14 @@ const playerNewCardInt = document.getElementById("playerNewCard")
 const playerScoreInt = document.getElementById("playerScore")
 const dealerScoreInt = document.getElementById("dealerScore")
 
+const playerHitInt = document.getElementById("playerHit")
+const playerStickInt = document.getElementById("playerStick")
+const restartGameInt = document.getElementById("restartGame")
+
+const dealHandInt = document.getElementById("dealHand")
+const resetDeckInt = document.getElementById("resetDeck")
+const cardDecksInt = document.getElementById("card-decks")
+
 const dealerCardsDisplay = [dealerCard1Int, dealerCard2Int, dealerCard3Int, dealerCard4Int, dealerCard5Int, dealerCard6Int]
 const playerCardsDisplay = [playerCard1Int, playerCard2Int, playerCard3Int, playerCard4Int, playerCard5Int, playerCard6Int]
 
@@ -31,8 +39,14 @@ const playerCardsDisplay = [playerCard1Int, playerCard2Int, playerCard3Int, play
 ////////////////////////////////
 
 const displayCards = (arrCard, arrDisplay) => {
-  for(let i=0; i < arrCard.length; i++) {
-  arrDisplay[i].getElementsByTagName('img')[0].src = `./img/cards/${arrCard[i]['card']}${arrCard[i]['suit']}.png`;
+  for (let i = 0; i < arrCard.length; i++) {
+    arrDisplay[i].getElementsByTagName('img')[0].src = `./img/cards/${arrCard[i]['card']}${arrCard[i]['suit']}.png`;
+  }
+}
+
+const resetCards = (arrDisplay) => {
+  for (let i = 0; i < arrDisplay.length; i++) {
+    arrDisplay[i].getElementsByTagName('img')[0].src = `./img/cards/blue_back.png`;
   }
 }
 
@@ -41,7 +55,7 @@ const displayCards = (arrCard, arrDisplay) => {
 ////////////////////////////////
 
 startGameInt.addEventListener('click', () => {
-  gameInProgress ? alert('Game already started') : startNewGame(1);
+  gameInProgress ? alert('Game already in progress.') : startNewGame(cardDecksInt.value);
 })
 
 ////////////////////////////////
@@ -49,10 +63,118 @@ startGameInt.addEventListener('click', () => {
 ////////////////////////////////
 
 const setScoreInt = (name, score, scoreArr, scoreInt) => {
-  if(scoreArr.length > 1) {
+  if (scoreArr.length > 1) {
     scoreInt.innerHTML = `${name} Score: ${scoreArr[0]} or ${scoreArr[1]}`;
-  } else {scoreInt.innerHTML = `${name} Score: ${score}`;
+  } else {
+    scoreInt.innerHTML = `${name} Score: ${score}`;
   }
+}
+
+////////////////////////////////
+////////Restart /////////////
+////////////////////////////////
+
+restartGameInt.addEventListener('click', () => {
+  gameInProgress = false;
+  dealerCards = [];
+  resetCards(dealerCardsDisplay)
+  dealerScore = 0
+  dealerNoDealtCards = 0
+  dealerScoreArr = [0]
+  setScoreInt('Dealer', dealerScore, dealerScoreArr, dealerScoreInt)
+  playerCards = [];
+  resetCards(playerCardsDisplay)
+  playerScore = 0
+  playerNoDealtCards = 0
+  playerScoreArr = [0]
+  setScoreInt('Player', playerScore, playerScoreArr, playerScoreInt)
+})
+
+////////////////////////////////
+////////Deal New Hand /////////////
+////////////////////////////////
+
+dealHandInt.addEventListener('click', () => {
+  if (!gameInProgress) {
+    dealCard(2, playerCards, playerCardsDisplay);
+    playerSetScore()
+    dealCard(2, dealerCards, dealerCardsDisplay);
+    dealerSetScore()
+    gameInProgress = true;
+  } else {
+    alert('Game already in progress!')
+  }
+});
+
+////////////////////////////////
+////////Reset Deck /////////////
+////////////////////////////////
+
+resetDeckInt.addEventListener('click', () => {
+  if (!gameInProgress) {
+    deckCards = [];
+    shuffledDeck = [];
+    createDeck(1);
+    startingCardsInt.innerHTML = deckCards.length
+    shuffleDeck();
+    //Testing - Log shuffled true/false
+    cardsShuffledInt.innerHTML = "Yes"
+    //Testing - Log number of shuffled cards
+    numberOfCardsLeftInt.innerHTML = shuffledDeck.length
+  } else {
+    alert('Game already in progress!')
+  }
+});
+
+
+////////////////////////////////
+////////HIT/////////////
+////////////////////////////////
+
+playerHitInt.addEventListener('click', () => {
+  if (gameInProgress) {
+    if (playerScore < 21 && playerScore !== 'BUST') {
+      dealCard(1, playerCards, playerCardsDisplay);
+      playerSetScore();
+    }
+  } else {
+    alert('No game currently in progress')
+  }
+});
+
+////////////////////////////////
+////////STICK/////////////
+////////////////////////////////
+
+playerStickInt.addEventListener('click', () => {
+  if (gameInProgress) {
+    /////Code to switch to dealer's go
+    dealersGo()
+  } else {
+    alert('No game currently in progress')
+  }
+});
+
+
+////////////////////////////////
+////////DISPLAY HAND TOTALS//////////////
+////////////////////////////////
+
+const playerSetScore = () => {
+  scoreCounter(playerCards, playerScoreArr, playerNoDealtCards, playerScore);
+  playerCheckScore(playerScoreArr);
+  setScoreInt('Player', playerScore, playerScoreArr, playerScoreInt);
+  playerNoDealtCards = playerCards.length;
+}
+
+const dealerSetScore = () => {
+  //console.log(dealerCards, dealerScoreArr, dealerNoDealtCards, dealerScore)
+  scoreCounter(dealerCards, dealerScoreArr, dealerNoDealtCards, dealerScore);
+  //console.log(dealerScoreArr)
+  dealerCheckScore(dealerScoreArr);
+  //console.log('Dealer', dealerScore, dealerScoreArr, dealerScoreInt);
+  setScoreInt('Dealer', dealerScore, dealerScoreArr, dealerScoreInt);
+  dealerNoDealtCards = dealerCards.length;
 }
 
 ////////////////////////////////
@@ -67,26 +189,10 @@ playerNewCardInt.addEventListener('click', () => {
   dealCard(1, playerCards, playerCardsDisplay);
 })
 
-const playerSetScore = () => {
-  scoreCounter(playerCards, playerScoreArr, playerNoDealtCards, playerScore);
-  playerCheckScore(playerScoreArr) ;
-  setScoreInt('Player', playerScore, playerScoreArr, playerScoreInt);
-  playerNoDealtCards = playerCards.length;
-}
-
-const dealerSetScore = () => {
-  scoreCounter(dealerCards, dealerScoreArr, dealerNoDealtCards, dealerScore);
-  dealerCheckScore(dealerScoreArr) ;
-  setScoreInt('Dealer', dealerScore, dealerScoreArr, dealerScoreInt);
-  dealerNoDealtCards = dealerCards.length;
-}
-
 playerScoreInt.addEventListener('click', () => {
-playerSetScore()
+  playerSetScore()
 })
 
-
-
 dealerScoreInt.addEventListener('click', () => {
-dealerSetScore()
+  dealerSetScore()
 })

@@ -1,5 +1,5 @@
-const dealerCards = [];
-const playerCards = [];
+let dealerCards = [];
+let playerCards = [];
 let playerScoreArr = [0];
 let playerNoDealtCards = 0;
 let dealerScoreArr = [0];
@@ -8,6 +8,7 @@ const blackjack = 21;
 let playerScore = 0;
 let dealerScore = 0;
 let gameInProgress = false;
+
 
 const startNewGame = (numDecks) => {
   //Create deck of cards - number of decks optional although currently 1 by default
@@ -22,14 +23,10 @@ const startNewGame = (numDecks) => {
   numberOfCardsLeftInt.innerHTML = shuffledDeck.length
   //Deal player 2 cards
   dealCard(2, playerCards, playerCardsDisplay);
-  // countCardScore(playerCards, playerScoreArr, playerNoDealtCards);
-  // checkScore(playerScoreArr)
-  // setScoreInt('Player', playerScore, playerScoreArr, playerScoreInt)
+  playerSetScore()
   //Deal dealer cards
   dealCard(2, dealerCards, dealerCardsDisplay);
-  // countCardScore(dealerCards,dealerScoreArr,dealerNoDealtCards)
-  // checkScore(dealerScoreArr)
-  // setScoreInt('Dealer', dealerScore, dealerScoreArr, dealerScoreInt)
+  dealerSetScore()
   //Set Scores
   gameInProgress = true;
 }
@@ -47,69 +44,43 @@ const dealCard = (num, arrCards, arrDisplay) => {
   displayCards(arrCards, arrDisplay);
 }
 
-/////////////////////////////
-/////CALCULATE SCORE////////////
-/////////////////////////////
 
-const countCardScore = (arrCards, arrScore, noCards) => {
-  for(i=noCards; i<arrCards.length; i++) {
-    switch (arrCards[i]['card']) {
-      case 'A':
-        if(arrScore.length === 1) {
-          arrScore.push(arrScore[0]);
-          arrScore[0] = (arrScore[0] * 1) + 1;
-          arrScore[1] = (arrScore[1] * 1) + 11;
-        }else{
-          arrScore[0] = (arrScore[0] * 1) + 1;
-          arrScore[1] = (arrScore[1] * 1 ) + 1;
-        }
-        break;
-      case 'J': case 'Q': case 'K':
-        if(arrScore.length === 1) {
-          arrScore[0] = (arrScore[0] * 1 ) + 10;
-        }else{
-          arrScore[0] = (arrScore[0] * 1 ) + 10;
-          arrScore[1] = (arrScore[1] * 1) + 10;
-        }
-        break;
-      default:
-        if(arrScore.length === 1) {
-          arrScore[0] = (arrScore[0] * 1 ) + (arrCards[i]['card'] * 1 );
-        }else{
-          arrScore[0] = (arrScore[0] * 1 ) + (arrCards[i]['card'] * 1);
-          arrScore[1] = (arrScore[1] * 1 ) + (arrCards[i]['card'] * 1 );
-        }
-    }
-    noCards++
-} 
-}
+////////////////////////////////
+////////DEALER's GO
+////////////////////////////////
 
-const checkScore = (arrScore, score) => {
-  console.log('Starting checkScore')
-  if(arrScore.length > 1 ) {
-    if(arrScore[1] > 21) {
-      arrScore.pop();
-      score = arrScore[0];
-    } else {
-      score = arrScore[1];
-    }
+const dealersGo = () => {
+  if(dealerScore === 'BUST') {
+    compareScores()
+  } else if (dealerScore > 16 ) {
+    compareScores()
   } else {
-    if(arrScore[0] > 21) {
-      console.log('Bust')
-      score = 'BUST'
-    } else {
-      console.log('Expecting this')
-      score = arrScore[0];
-      console.log(score)
-    }
+    console.log('dealer hits')
+    dealCard(1, dealerCards, dealerCardsDisplay)
+    dealerSetScore()
+    dealersGo()
   }
-  setScoreInt('Player', score, arrScore, playerScoreInt)
-} 
+  }
 
+  ////////////////////////////////
+////////Compare Scores
+////////////////////////////////
 
-////////////////////////////////
-////////////////////////////////HIT
-////////////////////////////////
+const compareScores = () => {
+  if (dealerScore === 'BUST' && playerScore === 'BUST') {
+    console.log("Draw") 
+  } else if (dealerScore === 'BUST') {
+    console.log("Player Wins")
+  } else if (playerScore === 'BUST') { 
+    console.log("Dealer Wins")
+  } else if (playerScore > dealerScore) { 
+    console.log("Player Wins")
+  } else if (playerScore < dealerScore) { 
+    console.log("Dealer Wins")
+  } else if (playerScore === dealerScore) { 
+    console.log("Draw")
+}
+};
 
 
 const countCards = () => {
