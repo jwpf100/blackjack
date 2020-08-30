@@ -1,0 +1,26 @@
+.flex-container{
+  display: flex;
+}
+
+.card {
+  height: 153px;
+  width: 100px;
+  border: solid 1px black;
+  margin: 10px;
+  text-align: center;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score {
+  display: flex;
+  height: 30px;
+  width: 60px;
+  border: solid 1px black;
+  margin: 10px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}

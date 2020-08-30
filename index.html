@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Blackjack</title>
+  <link rel="stylesheet" href="./css/normalise.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+  <div id="controls">
+    <h1>Controls</h1>
+    <div class="flex-container">
+      <div id="startingCards" class="score">0</div>
+      <div id="cardsShuffled" class="score">0</div>
+      <div id="numberOfCardsLeft" class="score">0</div>
+    </div>
+    <div class="flex-container">
+      <div id="startGame" class="score">Start</div>
+      <div id="dealerNewCard" class="score">Dealer Deal</div>
+      <div id="playerNewCard" class="score">Player Deal</div>
+    </div>
+  </div>
+  <div id="dealer">
+    <h1>Dealer</h1>
+    <div class="flex-container">
+      <div id="dealerCard1" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="dealerCard2" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="dealerCard3" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="dealerCard4" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="dealerCard5" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="dealerCard6" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+    </div>
+  </div>
+  <div id="player1">
+    <h1>Player 1</h1>
+    <div class="flex-container">
+      <div id="playerCard1" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="playerCard2" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="playerCard3" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="playerCard4" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="playerCard5" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+      <div id="playerCard6" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
+        <p></p>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div id="playerScore" class="score">
+        <p>Player Score:</p>
+        <p></p>
+      </div>
+      <div id="dealerScore" class="score">        
+        <p>Dealer Score:</p>
+        <p></p>
+      </div>
+      <div class="score">Total</div>
+      <div id="playerHit" class="score">Hit</div>
+      <div id="playerStick" class="score">Stick</div>
+    </div>
+  </div>
+  <script src="./js/modules/cards.js"></script>
+  <script src="./js/game.js"></script>
+  <script src="./js/gamenew.js"></script>
+  <script src="./js/modules/interface.js"></script>
+</body>
+
+</html>
