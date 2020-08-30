@@ -24,3 +24,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.display {
+  height: 60px;
+  width: 300px;
+  border: solid black 1px;
+}

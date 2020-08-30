@@ -30,6 +30,10 @@ const restartGameInt = document.getElementById("restartGame")
 const dealHandInt = document.getElementById("dealHand")
 const resetDeckInt = document.getElementById("resetDeck")
 const cardDecksInt = document.getElementById("card-decks")
+const playerInfoDisplayInt = document.getElementById("playerInfoDisplay")
+
+const gameCountDInt = document.getElementById("gameCountD")
+const gameCountPInt = document.getElementById("gameCountP")
 
 const dealerCardsDisplay = [dealerCard1Int, dealerCard2Int, dealerCard3Int, dealerCard4Int, dealerCard5Int, dealerCard6Int]
 const playerCardsDisplay = [playerCard1Int, playerCard2Int, playerCard3Int, playerCard4Int, playerCard5Int, playerCard6Int]
@@ -75,6 +79,10 @@ const setScoreInt = (name, score, scoreArr, scoreInt) => {
 ////////////////////////////////
 
 restartGameInt.addEventListener('click', () => {
+  resetGame();
+})
+
+const resetGame = () => {
   gameInProgress = false;
   dealerCards = [];
   resetCards(dealerCardsDisplay)
@@ -88,19 +96,33 @@ restartGameInt.addEventListener('click', () => {
   playerNoDealtCards = 0
   playerScoreArr = [0]
   setScoreInt('Player', playerScore, playerScoreArr, playerScoreInt)
-})
+}
 
 ////////////////////////////////
 ////////Deal New Hand /////////////
 ////////////////////////////////
 
-dealHandInt.addEventListener('click', () => {
+const dealNewHand = () => {
   if (!gameInProgress) {
     dealCard(2, playerCards, playerCardsDisplay);
     playerSetScore()
     dealCard(2, dealerCards, dealerCardsDisplay);
     dealerSetScore()
+    if (playerScore === 21) {
+      playerInfoDisplayInt.innerHTML = `Player is on ${playerScore} : Dealer's turn...`
+    } else {
+      playerInfoDisplayInt.innerHTML = `Player is on ${playerScore} : Hit or Stick?`
+    }
     gameInProgress = true;
+  } else {
+    alert('Game already in progress!')
+  }
+}
+
+dealHandInt.addEventListener('click', () => {
+  if (!gameInProgress) {
+    resetGame()
+    dealNewHand()
   } else {
     alert('Game already in progress!')
   }
@@ -114,7 +136,7 @@ resetDeckInt.addEventListener('click', () => {
   if (!gameInProgress) {
     deckCards = [];
     shuffledDeck = [];
-    createDeck(1);
+    createDeck(cardDecksInt.value);
     startingCardsInt.innerHTML = deckCards.length
     shuffleDeck();
     //Testing - Log shuffled true/false
@@ -136,9 +158,18 @@ playerHitInt.addEventListener('click', () => {
     if (playerScore < 21 && playerScore !== 'BUST') {
       dealCard(1, playerCards, playerCardsDisplay);
       playerSetScore();
+      if (playerScore === 'BUST') {
+        playerInfoDisplayInt.innerHTML = `Player is ${playerScore} : Dealer's turn...`;
+        dealersGo();
+      } else if (playerScore === 21) {
+        playerInfoDisplayInt.innerHTML = `Player is on ${playerScore} : Dealer's turn...`;
+        dealersGo();
+      } else {
+        playerInfoDisplayInt.innerHTML = `Player is on ${playerScore} : Hit or Stick?`
+      };
+    } else {
+      alert('No game currently in progress')
     }
-  } else {
-    alert('No game currently in progress')
   }
 });
 

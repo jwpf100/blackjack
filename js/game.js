@@ -8,6 +8,8 @@ const blackjack = 21;
 let playerScore = 0;
 let dealerScore = 0;
 let gameInProgress = false;
+let gameCountPlayer = 0;
+let gameCountDealer = 0;
 
 
 const startNewGame = (numDecks) => {
@@ -27,7 +29,12 @@ const startNewGame = (numDecks) => {
   //Deal dealer cards
   dealCard(2, dealerCards, dealerCardsDisplay);
   dealerSetScore()
-  //Set Scores
+  if(playerScore === 21) {
+    playerInfoDisplayInt.innerHTML = `Player is on ${playerScore} : Dealer's turn...`
+    dealersGo()
+  } else {
+  playerInfoDisplayInt.innerHTML = `Player is on ${playerScore} : Hit or Stick?`
+  }
   gameInProgress = true;
 }
 
@@ -55,7 +62,7 @@ const dealersGo = () => {
   } else if (dealerScore > 16 ) {
     compareScores()
   } else {
-    console.log('dealer hits')
+    playerInfoDisplayInt.innerHTML = `Dealer is on ${dealerScore}. Dealer Hits.`
     dealCard(1, dealerCards, dealerCardsDisplay)
     dealerSetScore()
     dealersGo()
@@ -68,18 +75,27 @@ const dealersGo = () => {
 
 const compareScores = () => {
   if (dealerScore === 'BUST' && playerScore === 'BUST') {
-    console.log("Draw") 
+    playerInfoDisplayInt.innerHTML = `It's a draw! Both players have gone bust.`
   } else if (dealerScore === 'BUST') {
-    console.log("Player Wins")
+    playerInfoDisplayInt.innerHTML = `Player wins with ${playerScore}! Dealer has gone bust.`
+    gameCountPlayer ++
+    gameCountPInt.innerHTML = `Player Games: ${gameCountPlayer}`
   } else if (playerScore === 'BUST') { 
-    console.log("Dealer Wins")
+    playerInfoDisplayInt.innerHTML = `Dealer wins! Player has gone bust`
+    gameCountDealer ++
+    gameCountDInt.innerHTML = `Dealer Games: ${gameCountDealer}`
   } else if (playerScore > dealerScore) { 
-    console.log("Player Wins")
+    playerInfoDisplayInt.innerHTML = `Player wins with ${playerScore}!`
+    gameCountPlayer ++
+    gameCountPInt.innerHTML = `Player Games: ${gameCountPlayer}`
   } else if (playerScore < dealerScore) { 
-    console.log("Dealer Wins")
+    playerInfoDisplayInt.innerHTML = `Dealer wins with ${dealerScore}!`
+    gameCountDealer ++
+    gameCountDInt.innerHTML = `Dealer Games: ${gameCountDealer}`
   } else if (playerScore === dealerScore) { 
-    console.log("Draw")
+    playerInfoDisplayInt.innerHTML = `It's a draw! Both players have ${dealerScore}.`
 }
+gameInProgress = false;
 };
 
 
