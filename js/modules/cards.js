@@ -25,12 +25,13 @@ const createDeck = (num) => {
     });
     i++;
   }
+  startingDeck = deckCards.length;
   return deckCards
 }
 
 const shuffleDeckTest = () => {
   shuffledDeck = [];
-  shuffledDeck.push(cardFactory('2', 'C'))
+  shuffledDeck.push(cardFactory('A', 'C'))
   shuffledDeck.push(cardFactory('10', 'C'))
   shuffledDeck.push(cardFactory('5', 'C'))
   shuffledDeck.push(cardFactory('6', 'C'))
