@@ -4,6 +4,12 @@ const dealerCard3Int = document.getElementById("dealerCard3")
 const dealerCard4Int = document.getElementById("dealerCard4")
 const dealerCard5Int = document.getElementById("dealerCard5")
 const dealerCard6Int = document.getElementById("dealerCard6")
+const dealerCard7Int = document.getElementById("dealerCard7")
+const dealerCard8Int = document.getElementById("dealerCard8")
+const dealerCard9Int = document.getElementById("dealerCard9")
+const dealerCard10Int = document.getElementById("dealerCard10")
+const dealerCard11Int = document.getElementById("dealerCard11")
+
 
 const playerCard1Int = document.getElementById("playerCard1")
 const playerCard2Int = document.getElementById("playerCard2")
@@ -11,6 +17,11 @@ const playerCard3Int = document.getElementById("playerCard3")
 const playerCard4Int = document.getElementById("playerCard4")
 const playerCard5Int = document.getElementById("playerCard5")
 const playerCard6Int = document.getElementById("playerCard6")
+const playerCard7Int = document.getElementById("playerCard7")
+const playerCard8Int = document.getElementById("playerCard8")
+const playerCard9Int = document.getElementById("playerCard9")
+const playerCard10Int = document.getElementById("playerCard10")
+const playerCard11Int = document.getElementById("playerCard11")
 
 // const startingCardsInt = document.getElementById("startingCards")
 // const cardsShuffledInt = document.getElementById("cardsShuffled")
@@ -37,8 +48,8 @@ const debuggingInfoInt = document.getElementById("debuggingInfo")
 const gameCountDInt = document.getElementById("gameCountD")
 const gameCountPInt = document.getElementById("gameCountP")
 
-const dealerCardsDisplay = [dealerCard1Int, dealerCard2Int, dealerCard3Int, dealerCard4Int, dealerCard5Int, dealerCard6Int]
-const playerCardsDisplay = [playerCard1Int, playerCard2Int, playerCard3Int, playerCard4Int, playerCard5Int, playerCard6Int]
+const dealerCardsDisplay = [dealerCard1Int, dealerCard2Int, dealerCard3Int, dealerCard4Int, dealerCard5Int, dealerCard6Int, dealerCard7Int, dealerCard8Int, dealerCard9Int, dealerCard10Int, dealerCard11Int]
+const playerCardsDisplay = [playerCard1Int, playerCard2Int, playerCard3Int, playerCard4Int, playerCard5Int, playerCard6Int, playerCard7Int, playerCard8Int, playerCard9Int, playerCard10Int, playerCard11Int]
 
 ////////////////////////////////////////////
 ////////Disable/Enable Buttons//////////////

@@ -47,7 +47,6 @@ const startNewGame = (numDecks) => {
   gameInProgress = true;
   if(playerScore === 21) {
     playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Dealer's turn...`;
-    dealerInfoDisplayInt.children[0].innerHTML = ``
     disablePlayerButtons()
     hideButtons()
     setTimeout(() => {
@@ -55,7 +54,6 @@ const startNewGame = (numDecks) => {
     }, timeBetweenGoes);    
   } else {
   playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Hit or Stick?`
-  dealerInfoDisplayInt.children[0].innerHTML = ``
 
   }
 }
@@ -264,13 +262,12 @@ const dealersGo = () => {
   // console.log('Before = ' + dealersTurnActive)
   if(!dealersTurnActive) {
     // console.log('Starting = turn over first card')
-    dealerInfoDisplayInt.children[0].innerHTML = `Dealer's turn!`
-    playerInfoDisplayInt.children[0].innerHTML = ``
+    playerInfoDisplayInt.children[0].innerHTML = `Dealer's turn!`
     setTimeout(() => {
     displayCards(dealerCards, dealerCardsDisplay)
     dealerSetScore()    
     //Why do I never see this displayed?  Is it queued and instantly overwritten by the next message?  Either way, the code gives the desired result.  Need to understand asynchronous/synchronous better.
-    dealerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}!`
+    playerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}!`
     // console.log('During = turn over first card')
     }, timeBetweenGoes);
     setTimeout(() => {
@@ -280,14 +277,14 @@ const dealersGo = () => {
   }else {
   if(dealerScore === 'BUST') {
     // console.log('Starting = dealerscore bust')
-    dealerInfoDisplayInt.children[0].innerHTML = `Dealer has gone bust!`
+    playerInfoDisplayInt.children[0].innerHTML = `Dealer has gone bust!`
     setTimeout(()=> {
     compareScores();
     // console.log('During = dealerscore bust')
   }, timeBetweenGoes)
   } else if (dealerScore > 16 ) {
     // console.log('Starting = dealer score > 16')
-    dealerInfoDisplayInt.children[0].innerHTML = `Dealer sticks on ${dealerScore}.`
+    playerInfoDisplayInt.children[0].innerHTML = `Dealer sticks on ${dealerScore}.`
     setTimeout(()=> {
     compareScores();
     // console.log('During = dealer score > 16')
@@ -295,7 +292,7 @@ const dealersGo = () => {
   } else {
     // console.log('Sktarting = Dealers turn else')
     // console.log('DTE Before= ' + dealersTurnActive)
-    dealerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}. Dealer Hits.`
+    playerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}. Dealer Hits.`
     setTimeout(()=> {
       dealCard(1, dealerCards, dealerCardsDisplay)
       dealerSetScore()
@@ -318,28 +315,27 @@ const compareScores = () => {
       playerInfoDisplayInt.innerHTML = `It's a draw! Both players have gone bust.`
     } else if (dealerScore === 'BUST') {
       playerInfoDisplayInt.children[0].innerHTML = `Player wins with ${playerScore}! Dealer has gone bust.`
-      // dealerInfoDisplayInt.children[0].innerHTML = `Player Won`
+      // playerInfoDisplayInt.children[0].innerHTML = `Player Won`
       gameCountPlayer ++
-      gameCountPInt.innerHTML = `Player Games: ${gameCountPlayer}`
+      gameCountPInt.innerHTML = `${gameCountPlayer}`
     } else if (playerScore === 'BUST') { 
-      dealerInfoDisplayInt.children[0].innerHTML = `Dealer wins with ${dealerScore}! Player has gone bust`
+      playerInfoDisplayInt.children[0].innerHTML = `Dealer wins with ${dealerScore}! Player has gone bust`
       // playerInfoDisplayInt.children[0].innerHTML = `Dealer Won!`
       gameCountDealer ++
-      gameCountDInt.innerHTML = `Dealer Games: ${gameCountDealer}`
+      gameCountDInt.innerHTML = `${gameCountDealer}`
     } else if (playerScore > dealerScore) { 
       playerInfoDisplayInt.children[0].innerHTML = `Player wins with ${playerScore}!`
-      // dealerInfoDisplayInt.children[0].innerHTML = `Player Won`
+      // playerInfoDisplayInt.children[0].innerHTML = `Player Won`
       gameCountPlayer ++
-      gameCountPInt.innerHTML = `Player Games: ${gameCountPlayer}`
+      gameCountPInt.innerHTML = `${gameCountPlayer}`
     } else if (playerScore < dealerScore) { 
-      dealerInfoDisplayInt.children[0].innerHTML = `Dealer wins with ${dealerScore}!`
+      playerInfoDisplayInt.children[0].innerHTML = `Dealer wins with ${dealerScore}!`
       // playerInfoDisplayInt.children[0].innerHTML = `Dealer Won!`
       gameCountDealer ++
-      gameCountDInt.innerHTML = `Dealer Games: ${gameCountDealer}`
+      gameCountDInt.innerHTML = `${gameCountDealer}`
     } else if (playerScore === dealerScore) { 
       playerInfoDisplayInt.children[0].innerHTML = `It's a draw! Both players have ${dealerScore}.`
   }
-  console.log("Next = endofHand()")
   setTimeout(() => {
     endOfHand()
   }, timeBetweenGoes*1.5);
@@ -352,7 +348,6 @@ const compareScores = () => {
 const endOfHand = () => {
   gameInProgress = false;
   debuggingInfoInt.children[0].innerHTML = `Starting deck = ${startingDeck}; Current deck = ${shuffledDeck.length}`
-  dealerInfoDisplayInt.children[0].innerHTML = ""
   playerInfoDisplayInt.children[0].innerHTML = `Good game! <br /> Would you like to play another hand?`
   //Reset deck of cards when no. drops below 25% of starting deck.
   if(shuffledDeck.length < (startingDeck * .25)) {
