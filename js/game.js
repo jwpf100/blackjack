@@ -11,7 +11,7 @@ let gameInProgress = false;
 let gameCountPlayer = 0;
 let gameCountDealer = 0;
 let dealersTurnActive = false;
-let timeBetweenGoes = 2500;
+let timeBetweenGoes = 1500;
 let startingDeck = 0;
 
 /////////////////////////////
