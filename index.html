@@ -4,88 +4,125 @@
 
 <head>
   <title>Blackjack</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonts  -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato&family=Merriweather&family=Merriweather+Sans&display=swap"
+    rel="stylesheet">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+  <!-- STYLESHEETS -->
   <link rel="stylesheet" href="./css/normalise.css">
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/styles.css">
+
 </head>
 
 <body>
-  <div id="controls">
-    <h1>Controls</h1>
-    <div class="flex-container">
-      <div id="startingCards" class="score">0</div>
-      <div id="cardsShuffled" class="score">0</div>
-      <div id="numberOfCardsLeft" class="score">0</div>
-    </div>
-    <div class="flex-container">
-      <div id="startGame" class="score">Start</div>
-      <div id="dealerNewCard" class="score">Dealer Deal</div>
-      <div id="playerNewCard" class="score">Player Deal</div>
+  <!-- <h1 class="main-header">Blackjack</h1> -->
+  <div class="main-header">
+    <h1>Blackjack</h1>
+  </div>
+  <div class="main-div">
+    <div class="game-div flex-container">
+      <div class="game-div-child child-dealer">
+        <div class="score-info">
+          <h4>Dealer</h4>
+          <h5>Hand</h5>
+          <h4 id="dealerScoreDisplay" class="dealerScoreDisplay">0</h4>
+          <h5>Games</h5>
+          <h4 id="gameCountD" class="dealerScoreDisplay">0</h4>
+        </div><!-- /score-info-->
+        <div class="card-area">
+          <div id="dealerCard1" class="card card1"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard2" class="card card2"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard3" class="card card3"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard4" class="card card4"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard5" class="card card5"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard6" class="card card6"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard7" class="card card7"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard8" class="card card8"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard9" class="card card9"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard10" class="card card10"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="dealerCard11" class="card card11"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+        </div> <!-- /card-area-->
+      </div> <!-- /game-div-child-->
+      <div class="game-div-child child-player">
+        <div class="score-info">
+          <h4>Player</h4>
+          <h5>Hand</h5>
+          <h4 id="playerScoreDisplay" class="playerScoreDisplay">0</h4>
+          <h5>Games</h5>
+          <h4 id="gameCountP" class="playerScoreDisplay">0</h4>
+        </div><!-- /score-info-->
+        <div class="card-area">
+          <div id="playerCard1" class="card card1"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard2" class="card card2"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard3" class="card card3"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard4" class="card card4"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard5" class="card card5"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard6" class="card card6"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard7" class="card card7"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard8" class="card card8"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard9" class="card card9"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard10" class="card card10"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+          <div id="playerCard11" class="card card11"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          </div>
+        </div> <!-- /card-area-->
+      </div> <!-- /game-div-child-->
+    </div> <!-- /game div-->
+    <div class="infoplay-div flex-container">
+      <div id="playerInfoDisplay" class="play-info-display">
+        <h5>Welcome to the Blackjack table!!! <br /> Would you like to start a new game?</h5>
+        <div class="buttons">
+          <button id="startGame" class="button" type="button">Start New Game</button>
+          <button id="playerHit" class="button" type="button">Hit</button>
+          <button id="playerStick" class="button" type="button">Stick</button>
+          <button id="dealHand" class="button" type="button">Deal New Hand</button>
+        </div>
+      </div><!-- play-info-display -->
+    </div><!-- /infoplay div-->
+  </div> <!-- /main div-->
+
+  <div id="game-controls" class="flex-container">
+    <div id="debuggingInfo" class="dbInfo">
+      <h5>Game info</h5>
+      <div class="buttons">
+        <button id="restartGame" class="score" type="button">Restart</button>
+        <button id="resetDeck" class="score" type="button">Reset Deck</button>
+        <input type="number" id="card-decks" min=1 max=9 value=4>
+      </div>
     </div>
   </div>
-  <div id="dealer">
-    <h1>Dealer</h1>
-    <div class="flex-container">
-      <div id="dealerCard1" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="dealerCard2" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="dealerCard3" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="dealerCard4" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="dealerCard5" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="dealerCard6" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-    </div>
-  </div>
-  <div id="player1">
-    <h1>Player 1</h1>
-    <div class="flex-container">
-      <div id="playerCard1" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="playerCard2" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="playerCard3" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="playerCard4" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="playerCard5" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-      <div id="playerCard6" class="card"><img src="./img/cards/blue_back.png" alt="" width="100%">
-        <p></p>
-      </div>
-    </div>
-    <div class="flex-container">
-      <div id="playerScore" class="score">
-        <p>Player Score:</p>
-        <p></p>
-      </div>
-      <div id="dealerScore" class="score">        
-        <p>Dealer Score:</p>
-        <p></p>
-      </div>
-      <div class="score">Total</div>
-      <div id="playerHit" class="score">Hit</div>
-      <div id="playerStick" class="score">Stick</div>
-    </div>
-  </div>
+
   <script src="./js/modules/cards.js"></script>
-  <script src="./js/game.js"></script>
   <script src="./js/gamenew.js"></script>
   <script src="./js/modules/interface.js"></script>
+  <script src="./js/game.js"></script>
 </body>
 
 </html>
