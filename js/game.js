@@ -158,6 +158,30 @@ const scoreCounter = (arrCards, arrScore, noCards, score) => {
 ///////CHECK SCORES - HOW DO I REPLACE THE BELOW WITH A UNIFORM FUNCTION?//////////
 /////////////////////////////////////////////////////////////////
 
+const checkScore = (score, arrScore) => {
+  if(arrScore.length > 1 ) {
+    if(arrScore[0] === 21 || arrScore[1] === 21) {
+      arrScore.pop();
+      arrScore[0] = 21;
+      score = arrScore[0];
+    } else if (arrScore[1] > 21) {
+      arrScore.pop();
+      score = arrScore[0];
+    } else {
+      score = arrScore[1];
+    }
+  } else {
+    if(arrScore[0] > 21) {
+      score = 'BUST'
+    } else {
+      score = arrScore[0];
+    }
+  }
+  return score
+}
+
+
+
 const playerCheckScore = (arrScore) => {
   if(arrScore.length > 1 ) {
     if(arrScore[0] === 21 || arrScore[1] === 21) {
@@ -206,12 +230,15 @@ const dealerCheckScore = (arrScore) => {
 ////////////////////////////////
 ////////HIT/////////////
 ////////////////////////////////
+////////
 
 const playerHit = () => {
 if (gameInProgress) {
   if (playerScore < 21 && playerScore !== 'BUST') {
     dealCard(1, playerCards, playerCardsDisplay);
-    playerSetScore();
+    // setTimeout(() => {
+      playerSetScore();
+    // }, timeBetweenGoes);
     if (playerScore === 'BUST') {
       playerInfoDisplayInt.children[0].innerHTML = `Player is ${playerScore} : Dealer's turn...`;
       disablePlayerButtons()
@@ -262,16 +289,17 @@ const dealersGo = () => {
   // console.log('Before = ' + dealersTurnActive)
   if(!dealersTurnActive) {
     // console.log('Starting = turn over first card')
-    playerInfoDisplayInt.children[0].innerHTML = `Dealer's turn!`
-    setTimeout(() => {
+    //playerInfoDisplayInt.children[0].innerHTML = `Dealer's turn!`
     displayCards(dealerCards, dealerCardsDisplay)
     dealerSetScore()    
-    //Why do I never see this displayed?  Is it queued and instantly overwritten by the next message?  Either way, the code gives the desired result.  Need to understand asynchronous/synchronous better.
-    playerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}!`
-    // console.log('During = turn over first card')
-    }, timeBetweenGoes);
+    // setTimeout(() => {
+    // //Why do I never see this displayed?  Is it queued and instantly overwritten by the next message?  Either way, the code gives the desired result.  Need to understand asynchronous/synchronous better.
+    // playerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}!`
+    // // console.log('During = turn over first card')
+    // }, timeBetweenGoes);
+    
     setTimeout(() => {
-      dealersTurnActive = true
+      dealersTurnActive = true;
       dealersGo()
     }, timeBetweenGoes);
   }else {
@@ -293,14 +321,18 @@ const dealersGo = () => {
     // console.log('Sktarting = Dealers turn else')
     // console.log('DTE Before= ' + dealersTurnActive)
     playerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}. Dealer Hits.`
+   
+   setTimeout(() => {
+    dealCard(1, dealerCards, dealerCardsDisplay)
+    dealerSetScore()
     setTimeout(()=> {
-      dealCard(1, dealerCards, dealerCardsDisplay)
-      dealerSetScore()
+
       // console.log('During = Dealers turn else')
       // console.log('DTE During = ' + dealersTurnActive)
       dealersTurnActive = true;
       dealersGo()
     }, timeBetweenGoes);
+   }, timeBetweenGoes);
   }
   }
   dealersTurnActive = false
@@ -312,7 +344,7 @@ const dealersGo = () => {
 
 const compareScores = () => {
     if (dealerScore === 'BUST' && playerScore === 'BUST') {
-      playerInfoDisplayInt.innerHTML = `It's a draw! Both players have gone bust.`
+      playerInfoDisplayInt.children[0].innerHTML = `It's a draw! Both players have gone bust.`
     } else if (dealerScore === 'BUST') {
       playerInfoDisplayInt.children[0].innerHTML = `Player wins with ${playerScore}! Dealer has gone bust.`
       // playerInfoDisplayInt.children[0].innerHTML = `Player Won`
