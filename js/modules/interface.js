@@ -179,6 +179,7 @@ const playerSetScore = () => {
   scoreCounter(playerCards, playerScoreArr, playerNoDealtCards, playerScore);
   playerCheckScore(playerScoreArr);
   setScoreInt('Player', playerScore, playerScoreArr, playerScoreInt);
+  
   playerNoDealtCards = playerCards.length;
 }
 
