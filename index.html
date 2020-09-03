@@ -37,15 +37,15 @@
           <h4 id="gameCountD" class="dealerScoreDisplay">0</h4>
         </div><!-- /score-info-->
         <div class="card-area">
-          <div id="dealerCard1" class="card card1"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          <div id="dealerCard1" class="card card1"><img src="./img/cards/blue_back.png" alt="" width="100%"><p></p>
           </div>
-          <div id="dealerCard2" class="card card2"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          <div id="dealerCard2" class="card card2"><img src="./img/cards/blue_back.png" alt="" width="100%"><p></p>
           </div>
-          <div id="dealerCard3" class="card card3"><img class="" src="" alt="" width="100%">
+          <div id="dealerCard3" class="card card3"><img class="" src="" alt="" width="100%"><p></p>
           </div>
-          <div id="dealerCard4" class="card card4"><img src="" alt="" width="100%">
+          <div id="dealerCard4" class="card card4"><img src="" alt="" width="100%"><p></p>
           </div>
-          <div id="dealerCard5" class="card card5"><img src="" alt="" width="100%">
+          <div id="dealerCard5" class="card card5"><img src="" alt="" width="100%"><p></p>
           </div>
           <div id="dealerCard6" class="card card6"><img src="" alt="" width="100%">
           </div>
@@ -70,15 +70,15 @@
           <h4 id="gameCountP" class="playerScoreDisplay">0</h4>
         </div><!-- /score-info-->
         <div class="card-area">
-          <div id="playerCard1" class="card card1"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          <div id="playerCard1" class="card card1"><img src="./img/cards/blue_back.png" alt="" width="100%"><p></p>
           </div>
-          <div id="playerCard2" class="card card2"><img src="./img/cards/blue_back.png" alt="" width="100%">
+          <div id="playerCard2" class="card card2"><img src="./img/cards/blue_back.png" alt="" width="100%"><p></p>
           </div>
-          <div id="playerCard3" class="card card3"><img src="" alt="" width="100%">
+          <div id="playerCard3" class="card card3"><img src="" alt="" width="100%"><p></p>
           </div>
-          <div id="playerCard4" class="card card4"><img src="" alt="" width="100%">
+          <div id="playerCard4" class="card card4"><img src="" alt="" width="100%"><p></p>
           </div>
-          <div id="playerCard5" class="card card5"><img src="" alt="" width="100%">
+          <div id="playerCard5" class="card card5"><img src="" alt="" width="100%"><p></p>
           </div>
           <div id="playerCard6" class="card card6"><img src="" alt="" width="100%">
           </div>
@@ -103,21 +103,25 @@
           <button id="playerHit" class="button" type="button">Hit</button>
           <button id="playerStick" class="button" type="button">Stick</button>
           <button id="dealHand" class="button" type="button">Deal New Hand</button>
+          <button id="showControls" class="button" type="button">Show Controls</button>
         </div>
       </div><!-- play-info-display -->
     </div><!-- /infoplay div-->
-  </div> <!-- /main div-->
-
-  <div id="game-controls" class="flex-container">
-    <div id="debuggingInfo" class="dbInfo">
-      <h5>Game info</h5>
-      <div class="buttons">
-        <button id="restartGame" class="score" type="button">Restart</button>
-        <button id="resetDeck" class="score" type="button">Reset Deck</button>
-        <input type="number" id="card-decks" min=1 max=9 value=4>
+    <div id="game-controls" class="infoplay-div">
+      <div id="debuggingInfo" class="play-info-display">
+        <h5>Game info</h5>
+        <div class="buttons">
+          <button id="restartGame" class="score" type="button">Restart</button>
+          <button id="resetDeck" class="score" type="button">Reset Deck</button>
+          <input type="checkbox" id="card-images" >
+          <label for="card-imagesa">Use Images</label>
+          <input type="number" id="card-decks" min=1 max=9 value=4>
+        </div>
       </div>
     </div>
-  </div>
+  </div> <!-- /main div-->
+
+
 
   <script src="./js/modules/cards.js"></script>
   <script src="./js/gamenew.js"></script>
