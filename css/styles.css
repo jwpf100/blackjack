@@ -3,7 +3,7 @@
 }
 
 #game-controls {
-  /* display: none; */
+  display: none;
 }
 
 html {
@@ -70,6 +70,7 @@ li {
 /* /////////////////// */
 .main-header {
   margin: 0 auto;
+  padding: 20px 0 0 10px;
 }
 
 .flex-container {
@@ -141,13 +142,16 @@ li {
   background-color: white;
   border-radius: 1rem;
 }
+p {
+  visibility: hidden;
+}
+
 .cardRed {
 color: red;
 }
 
-
 .card2 {
-  margin-left: -5.6rem;
+  margin-left: -5.1rem;
 }
 
 .card3,
@@ -159,7 +163,7 @@ color: red;
 .card9,
 .card10,
 .card11 {
-  margin-left: -5.6rem;
+  margin-left: -5.1rem;
   visibility: hidden;
 }
 
@@ -175,7 +179,7 @@ color: red;
 .play-info-display {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   background-color: darkgreen;
   opacity: .75;
@@ -193,6 +197,14 @@ color: red;
 
 .buttons {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+}
+
+label, input {
+  padding: 5px 10px;
+  margin: 0px;
 }
 
 .button {
