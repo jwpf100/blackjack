@@ -1,3 +1,7 @@
+///////////////////////////
+///////To Create Cards//////
+///////////////////////////
+
 const cardFactory = (card, suit) => {
   return {
     card,
@@ -5,13 +9,20 @@ const cardFactory = (card, suit) => {
   }
 }
 
+///////////////////////////
+/////List of suits and cards//////
+///////////////////////////
+
 const suits = ['H', 'S', 'C', 'D'];
 const faces = ['J', 'Q', 'K', 'A'];
 const numbers = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 let deckCards = [];
 let shuffledDeck = [];
 
+///////////////////////////
 //Create (num) deck(s) of cards//
+///////////////////////////
+
 const createDeck = (num) => {
   let i = 0;
   while (i < num) {
@@ -29,6 +40,10 @@ const createDeck = (num) => {
   return deckCards
 }
 
+///////////////////////////
+/////For testing only//////
+///////////////////////////
+
 const shuffleDeckTest = () => {
   shuffledDeck = [];
   shuffledDeck.push(cardFactory('A', 'C'))
@@ -41,11 +56,13 @@ const shuffleDeckTest = () => {
   shuffledDeck.push(cardFactory('8', 'C'))
   return shuffledDeck;
 }
-
+///////////////////////////
 //Shuffle Deck
+///////////////////////////
+
 const shuffleDeck = () => {
   const numberShuffle = deckCards.length;
-    shuffledDeck = [];
+  shuffledDeck = [];
   for (let i = 0; i < numberShuffle; i++) {
     let numberCards = deckCards.length;
     //Pick random card
@@ -57,15 +74,3 @@ const shuffleDeck = () => {
   }
   return shuffledDeck;
 }
-
-//Test shuffling works
-// createDeck(1)
-// console.log(`Deck of cards length = ${deckCards.length}`)
-// console.log(`Card 1 = ${deckCards[0].card}, ${deckCards[0].suit}`)
-// console.log(`Card 52 = ${deckCards[51].card}, ${deckCards[51].suit}`)
-// shuffleDeck()
-// console.log("Now shuffle Cards")
-// console.log(`Deck of cards length = ${deckCards.length}`)
-// console.log(`Shuffled deck of cards length = ${shuffledDeck.length}`)
-// console.log(`Card 1 = ${shuffledDeck[0].card}, ${shuffledDeck[0].suit}`)
-// console.log(`Card 52 = ${shuffledDeck[51].card}, ${shuffledDeck[51].suit}`)
