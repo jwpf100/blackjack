@@ -28,6 +28,7 @@ const playerCard11Int = document.getElementById("playerCard11")
 // const numberOfCardsLeftInt = document.getElementById("numberOfCardsLeft")
 
 const useImagesInt = document.getElementById("card-images")
+const cardDelayInt = document.getElementById("card-delay")
 
 const startGameInt = document.getElementById("startGame")
 // const dealerNewCardInt = document.getElementById("dealerNewCard")
@@ -39,6 +40,7 @@ const dealerScoreInt = document.getElementById("dealerScoreDisplay")
 const playerHitInt = document.getElementById("playerHit")
 const playerStickInt = document.getElementById("playerStick")
 const restartGameInt = document.getElementById("restartGame")
+const dealersGoInt = document.getElementById("dealersGo")
 
 const showControlsInt = document.getElementById("showControls")
 const gameControlsInt = document.getElementById("game-controls")
@@ -46,6 +48,7 @@ const gameControlsInt = document.getElementById("game-controls")
 const dealHandInt = document.getElementById("dealHand")
 const resetDeckInt = document.getElementById("resetDeck")
 const cardDecksInt = document.getElementById("card-decks")
+
 const playerInfoDisplayInt = document.getElementById("playerInfoDisplay")
 const dealerInfoDisplayInt = document.getElementById("dealerInfoDisplay")
 const debuggingInfoInt = document.getElementById("debuggingInfo")
@@ -64,12 +67,15 @@ const disablePlayerButtons = () => {
   playerHitInt.disabled = true
   playerStickInt.disabled = true
   dealHandInt.disabled = true
+  dealersGoInt.disabled = false
 }
+
 
 const enablePlayerButtons = () => {
   playerHitInt.disabled = false
   playerStickInt.disabled = false
   dealHandInt.disabled = false
+  dealersGoInt.disabled = true
 }
 
 const enableDealButton = () => {
@@ -80,18 +86,24 @@ const hideButtons = () => {
   $(dealHandInt).hide()
   $(playerHitInt).hide()
   $(playerStickInt).hide()
+  $(showControlsInt).hide()
+  $(dealersGoInt).hide()
 }
 
 const inPlayButtons = () => {
   $(startGameInt).hide()
+  $(showControlsInt).hide()
   $(playerHitInt).show()
   $(playerStickInt).show()
+  $(dealersGoInt).hide()
 }
 
 const dealNewHandButtons = () => {
   $(playerHitInt).hide()
   $(playerStickInt).hide()
   $(dealHandInt).show()
+  $(showControlsInt).show()
+  $(dealersGoInt).hide()
 }
 
 ////////////////////////////////
@@ -110,14 +122,18 @@ const displayCardsNoImages = (arrCard, arrDisplay) => {
     arrDisplay[i].getElementsByTagName('img')[0].src = ``;
     if(arrCard[i]['suit'] === 'D') {
       arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9830`;
-      arrDisplay[i].classList.add('cardRed')
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardRed')
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardVisible')
     } else if (arrCard[i]['suit'] === 'H') {
       arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9829`;
-      arrDisplay[i].classList.add('cardRed')
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardRed')
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardVisible')
     } else if (arrCard[i]['suit'] === 'C') {
       arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9827`;
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardVisible');
     } else if (arrCard[i]['suit'] === 'S') { 
       arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9824`;
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardVisible');
     }
     arrDisplay[i].classList.add('cardVisible')
   }
@@ -128,9 +144,14 @@ const displayCardsNoImages = (arrCard, arrDisplay) => {
 const resetCards = (arrDisplay) => {
   for (let i = 0; i < arrDisplay.length; i++) {
     arrDisplay[i].getElementsByTagName('img')[0].src = `./img/cards/blue_back.png`;
+    arrDisplay[i].getElementsByTagName('p')[0].innerHTML = ``;
+    arrDisplay[i].getElementsByTagName('p')[0].classList.remove('cardRed');
     if (i > 1) {
       arrDisplay[i].getElementsByTagName('img')[0].classList.remove('cardVisible');
       arrDisplay[i].classList.remove('cardVisible');
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = ``;
+      arrDisplay[i].getElementsByTagName('p')[0].classList.remove('cardRed');
+      // arrDisplay[i].getElementsByTagName('p')[0].classList.remove('cardVisible');
     }
   }
 }
@@ -159,9 +180,9 @@ startGameInt.addEventListener('click', () => {
 ////////Restart Game Button/////////////
 ////////////////////////////////
 
-restartGameInt.addEventListener('click', () => {
-  resetGame();
-})
+// restartGameInt.addEventListener('click', () => {
+//   resetGame();
+// })
 
 
 dealHandInt.addEventListener('click', () => {
@@ -177,9 +198,9 @@ dealHandInt.addEventListener('click', () => {
 ////////Reset Deck /////////////
 ////////////////////////////////
 
-resetDeckInt.addEventListener('click', () => {
-  resetDeck();
-});
+// resetDeckInt.addEventListener('click', () => {
+//   resetDeck();
+// });
 
 ////////////////////////////////
 ////////HIT/////////////
@@ -198,6 +219,18 @@ playerHitInt.addEventListener('click', () => {
 playerStickInt.addEventListener('click', () => {
   playerStick();
 });
+
+
+
+////////////////////////////////
+////////STICK/////////////
+////////////////////////////////
+
+dealersGoInt.addEventListener('click', () => {
+  dealersGo();
+});
+
+
 
 ////////////////////////////////
 ////////SHOW CONTORLS/////////////
@@ -252,3 +285,6 @@ const dealerSetScore = () => {
 // dealerScoreInt.addEventListener('click', () => {
 //   dealerSetScore()
 // })
+
+////////////////////////////////
+
