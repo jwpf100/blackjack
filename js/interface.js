@@ -1,3 +1,7 @@
+///////////////////////////
+//////list of elements/////
+///////////////////////////
+
 const dealerCard1Int = document.getElementById("dealerCard1")
 const dealerCard2Int = document.getElementById("dealerCard2")
 const dealerCard3Int = document.getElementById("dealerCard3")
@@ -23,13 +27,11 @@ const playerCard9Int = document.getElementById("playerCard9")
 const playerCard10Int = document.getElementById("playerCard10")
 const playerCard11Int = document.getElementById("playerCard11")
 
-// const startingCardsInt = document.getElementById("startingCards")
-// const cardsShuffledInt = document.getElementById("cardsShuffled")
-// const numberOfCardsLeftInt = document.getElementById("numberOfCardsLeft")
+const useImagesInt = document.getElementById("card-images")
+const dealersTurnInt = document.getElementById("dealers-turn")
+const cardDelayInt = document.getElementById("card-delay")
 
 const startGameInt = document.getElementById("startGame")
-// const dealerNewCardInt = document.getElementById("dealerNewCard")
-// const playerNewCardInt = document.getElementById("playerNewCard")
 
 const playerScoreInt = document.getElementById("playerScoreDisplay")
 const dealerScoreInt = document.getElementById("dealerScoreDisplay")
@@ -37,10 +39,15 @@ const dealerScoreInt = document.getElementById("dealerScoreDisplay")
 const playerHitInt = document.getElementById("playerHit")
 const playerStickInt = document.getElementById("playerStick")
 const restartGameInt = document.getElementById("restartGame")
+const dealersGoInt = document.getElementById("dealersGo")
+
+const showControlsInt = document.getElementById("showControls")
+const gameControlsInt = document.getElementById("game-controls")
 
 const dealHandInt = document.getElementById("dealHand")
 const resetDeckInt = document.getElementById("resetDeck")
 const cardDecksInt = document.getElementById("card-decks")
+
 const playerInfoDisplayInt = document.getElementById("playerInfoDisplay")
 const dealerInfoDisplayInt = document.getElementById("dealerInfoDisplay")
 const debuggingInfoInt = document.getElementById("debuggingInfo")
@@ -48,23 +55,30 @@ const debuggingInfoInt = document.getElementById("debuggingInfo")
 const gameCountDInt = document.getElementById("gameCountD")
 const gameCountPInt = document.getElementById("gameCountP")
 
+///////////////////////////
+////////Card Arrays  //////
+///////////////////////////
+
 const dealerCardsDisplay = [dealerCard1Int, dealerCard2Int, dealerCard3Int, dealerCard4Int, dealerCard5Int, dealerCard6Int, dealerCard7Int, dealerCard8Int, dealerCard9Int, dealerCard10Int, dealerCard11Int]
 const playerCardsDisplay = [playerCard1Int, playerCard2Int, playerCard3Int, playerCard4Int, playerCard5Int, playerCard6Int, playerCard7Int, playerCard8Int, playerCard9Int, playerCard10Int, playerCard11Int]
 
 ////////////////////////////////////////////
-////////Disable/Enable Buttons//////////////
+////////Disable/Enable/SHow/Hide Buttons//////////////
 ////////////////////////////////////////////
 
 const disablePlayerButtons = () => {
   playerHitInt.disabled = true
   playerStickInt.disabled = true
   dealHandInt.disabled = true
+  dealersGoInt.disabled = false
 }
+
 
 const enablePlayerButtons = () => {
   playerHitInt.disabled = false
   playerStickInt.disabled = false
   dealHandInt.disabled = false
+  dealersGoInt.disabled = true
 }
 
 const enableDealButton = () => {
@@ -75,22 +89,28 @@ const hideButtons = () => {
   $(dealHandInt).hide()
   $(playerHitInt).hide()
   $(playerStickInt).hide()
+  // $(showControlsInt).hide()
+  $(dealersGoInt).hide()
 }
 
 const inPlayButtons = () => {
   $(startGameInt).hide()
+  $(showControlsInt).hide()
   $(playerHitInt).show()
   $(playerStickInt).show()
+  $(dealersGoInt).hide()
 }
 
 const dealNewHandButtons = () => {
   $(playerHitInt).hide()
   $(playerStickInt).hide()
   $(dealHandInt).show()
+  $(showControlsInt).show()
+  $(dealersGoInt).hide()
 }
 
 ////////////////////////////////
-/////Show Cards Interface////////
+/////Display Cards on Screen////////
 ////////////////////////////////
 
 const displayCards = (arrCard, arrDisplay) => {
@@ -100,17 +120,59 @@ const displayCards = (arrCard, arrDisplay) => {
   }
 }
 
+////////////////////////////////
+/////Display Cards on Screen without pictures////////
+////////////////////////////////
+
+const displayCardsNoImages = (arrCard, arrDisplay) => {
+  for (let i = 0; i < arrCard.length; i++) {
+    arrDisplay[i].getElementsByTagName('img')[0].src = ``;
+    if (arrCard[i]['suit'] === 'D') {
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9830`;
+      arrDisplay[i].classList.add('cardRed')
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardVisible')
+    } else if (arrCard[i]['suit'] === 'H') {
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9829`;
+      arrDisplay[i].classList.add('cardRed')
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardVisible')
+    } else if (arrCard[i]['suit'] === 'C') {
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9827`;
+      arrDisplay[i].classList.add('cardBlack')
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardVisible');
+    } else if (arrCard[i]['suit'] === 'S') {
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9824`;
+      arrDisplay[i].classList.add('cardBlack')
+      arrDisplay[i].getElementsByTagName('p')[0].classList.add('cardVisible');
+    }
+    arrDisplay[i].classList.add('cardVisible')
+  }
+  console.log('Noimages')
+}
+
+////////////////////////////////
+/////Reset Cards Displayed at end of game////////
+////////////////////////////////
+
 const resetCards = (arrDisplay) => {
   for (let i = 0; i < arrDisplay.length; i++) {
     arrDisplay[i].getElementsByTagName('img')[0].src = `./img/cards/blue_back.png`;
+    arrDisplay[i].getElementsByTagName('p')[0].innerHTML = ``;
+    arrDisplay[i].classList.remove('cardRed');
+    arrDisplay[i].classList.remove('cardBlack');
+    arrDisplay[i].getElementsByTagName('img')[0].classList.remove('cardVisible');
     if (i > 1) {
       arrDisplay[i].getElementsByTagName('img')[0].classList.remove('cardVisible');
+      arrDisplay[i].classList.remove('cardVisible');
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = ``;
+      arrDisplay[i].classList.remove('cardRed');
+      arrDisplay[i].classList.remove('cardBlack');
+      // arrDisplay[i].getElementsByTagName('p')[0].classList.remove('cardVisible');
     }
   }
 }
 
 ////////////////////////////////
-/////Set Score Interface////////
+////////Show scores on screen
 ////////////////////////////////
 
 const setScoreInt = (name, score, scoreArr, scoreInt) => {
@@ -122,7 +184,7 @@ const setScoreInt = (name, score, scoreArr, scoreInt) => {
 }
 
 ////////////////////////////////
-/////Start a Game Button////////
+/////Start a Game Button Listener////////
 ////////////////////////////////
 
 startGameInt.addEventListener('click', () => {
@@ -130,13 +192,17 @@ startGameInt.addEventListener('click', () => {
 })
 
 ////////////////////////////////
-////////Restart Game Button/////////////
+////////Restart Game Button Listener (Testing Only)/////////////
 ////////////////////////////////
 
-restartGameInt.addEventListener('click', () => {
-  resetGame();
-})
+// restartGameInt.addEventListener('click', () => {
+//   resetGame();
+// })
 
+
+////////////////////////////////
+////////Deal new Hand Button Listener/////////////
+////////////////////////////////
 
 dealHandInt.addEventListener('click', () => {
   if (!gameInProgress) {
@@ -148,38 +214,64 @@ dealHandInt.addEventListener('click', () => {
 });
 
 ////////////////////////////////
-////////Reset Deck /////////////
+////////Reset Deck (Testing Only)/////////////
 ////////////////////////////////
 
-resetDeckInt.addEventListener('click', () => {
-  resetDeck();
-});
+// resetDeckInt.addEventListener('click', () => {
+//   resetDeck();
+// });
 
 ////////////////////////////////
-////////HIT/////////////
+////////Player HIT Button Listener/////////////
 ////////////////////////////////
 
 playerHitInt.addEventListener('click', () => {
+  disablePlayerButtons();
   playerHit();
 });
 
 ////////////////////////////////
-////////STICK/////////////
+////////Player STICK Button Listener/////////////
 ////////////////////////////////
 
 playerStickInt.addEventListener('click', () => {
   playerStick();
 });
 
+
+
 ////////////////////////////////
-////////DISPLAY HAND TOTALS//////////////
+////////Dealers Go Button Listener/////////////
+////////////////////////////////
+
+dealersGoInt.addEventListener('click', () => {
+  $(dealersGoInt).hide()
+  dealersGo();
+});
+
+
+
+////////////////////////////////
+////////SHOW Controls button Listener/////////////
+////////////////////////////////
+
+showControlsInt.addEventListener('click', () => {
+  if (gameControlsInt.style.display === "none") {
+    gameControlsInt.style.display = "block";
+  } else {
+    gameControlsInt.style.display = "none";
+  }
+});
+
+////////////////////////////////
+////////Count up cards and set scores at the end of each go//////////////
 ////////////////////////////////
 
 const playerSetScore = () => {
   scoreCounter(playerCards, playerScoreArr, playerNoDealtCards, playerScore);
   playerCheckScore(playerScoreArr);
   setScoreInt('Player', playerScore, playerScoreArr, playerScoreInt);
-  
+
   playerNoDealtCards = playerCards.length;
 }
 
@@ -212,3 +304,5 @@ const dealerSetScore = () => {
 // dealerScoreInt.addEventListener('click', () => {
 //   dealerSetScore()
 // })
+
+////////////////////////////////

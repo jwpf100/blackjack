@@ -28,7 +28,7 @@ h1 {
   font-size: 2.5rem;
   font-family: 'Rye', cursive;
   text-align: center;
-text-decoration: underline darkred;
+  text-decoration: underline darkred;
   text-transform: uppercase;
 }
 
@@ -70,6 +70,7 @@ li {
 /* /////////////////// */
 .main-header {
   margin: 0 auto;
+  padding: 20px 0 0 10px;
 }
 
 .flex-container {
@@ -98,7 +99,7 @@ li {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -112,7 +113,7 @@ li {
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: baseline;
 }
 
 .score-info>* {
@@ -133,15 +134,35 @@ li {
 }
 
 .card {
-  height: auto;
+  height: 138px;
   width: 90px;
   margin: 0.5rem;
   padding: 0px;
+  background-color: transparent;
+  border: none;
+
 }
 
+p {
+  visibility: hidden;
+}
+
+.cardRed {
+  color: red;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 1rem;
+}
+
+.cardBlack {
+  color: black;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 1rem;
+}
 
 .card2 {
-  margin-left: -5.6rem;
+  margin-left: -5.1rem;
 }
 
 .card3,
@@ -153,12 +174,13 @@ li {
 .card9,
 .card10,
 .card11 {
-  margin-left: -5.6rem;
+  margin-left: -5.1rem;
   visibility: hidden;
 }
 
 .cardVisible {
   visibility: visible;
+
 }
 
 .infoplay-div {
@@ -184,8 +206,33 @@ li {
   margin: 1rem;
 }
 
+.control-panel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: darkgreen;
+  opacity: .75;
+  border-radius: 1rem;
+  color: white;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 200;
+  font-style: italic;
+}
+
 .buttons {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+label,
+input {
+  padding: 5px 10px;
+  margin: 0px;
 }
 
 .button {
@@ -194,20 +241,21 @@ li {
   margin: 1rem 0.5rem;
 }
 
+.main-button {
+  font-weight: bold;
+  border: black solid 2px;
+}
+
+.minor-button {
+  font-weight: 200;
+  font-style: italic;
+  border: none;
+  font-size: 0.75rem;
+}
+
 /* /////////////////// */
 /* //////INFO DISPLAY/////// */
 /* /////////////////// */
-
-.dbInfo {
-  min-height: 100px;
-  min-width: 500px;
-  background-color: darkgreen;
-  opacity: .75;
-  border-radius: 1rem;
-  color: white;
-  font-family: 'Lato', sans-serif;
-  font-size: 1.25rem;
-}
 
 .score {
   display: flex;
@@ -234,8 +282,25 @@ body {
 MEDIA QUERIES 
 /////////////////////////////////////// */
 
+@media screen and (max-width: 750px) {
+  .game-div {
+    width: 100%;
+  }
 
-@media screen and (min-width: 900px) {
+  .infoplay-div {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 600px) {
+
+  .card {
+    width: 100px;
+    height: 153px;
+  }
+}
+
+@media screen and (min-width: 750px) {
   html {
     font-size: 16px;
   }
@@ -252,11 +317,11 @@ MEDIA QUERIES
   }
 
   .game-div {
-    width: 45%;
+    width: 50%;
   }
 
   .infoplay-div {
-    width: 45%;
+    width: 50%;
   }
 
   .game-div-child {}
@@ -271,12 +336,11 @@ MEDIA QUERIES
 
   .score-info {}
 
-  .score-info>* {
-
-  }
+  .score-info>* {}
 
   .card {
-    width: 120px;
+    width: 100px;
+    height: 153px;
   }
 
   .infoplay-div {
@@ -284,22 +348,23 @@ MEDIA QUERIES
   }
 
   .play-info-display {
-    margin: 5rem;
+    margin: 1rem;
     height: 30%;
     flex-wrap: wrap;
-
-
+    justify-content: center;
   }
+
   .play-info-display>h5 {
     line-height: 2rem;
   }
 }
 
- @media screen and (max-width: 600px) {
+@media screen and (min-width: 1000px) {
   .game-div {
-    width: 100%;
+    width: 45%;
   }
+
   .infoplay-div {
-    width: 100%;
+    width: 45%;
   }
-} 
+}

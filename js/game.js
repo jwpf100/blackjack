@@ -11,11 +11,11 @@ let gameInProgress = false;
 let gameCountPlayer = 0;
 let gameCountDealer = 0;
 let dealersTurnActive = false;
-let timeBetweenGoes = 1500;
 let startingDeck = 0;
+let minDelay = 250;
 
 /////////////////////////////
-/////Initial Set Up////////////
+/////Initial Game Set Up////////////
 /////////////////////////////
 
 disablePlayerButtons()
@@ -23,16 +23,10 @@ hideButtons()
 $(startGameInt).show()
 
 const startNewGame = (numDecks) => {
-  //Create deck of cards - number of decks optional although currently 1 by default
+  //Create deck of cards - number of decks optional 
   createDeck(numDecks);
-  //Testing - Log number of cards
-  //startingCardsInt.innerHTML = deckCards.length;
   //Shuffle cards
-  shuffleDeck();  
-  //Testing - Log shuffled true/false
-  //cardsShuffledInt.innerHTML = "Yes";
-  //Testing - Log number of shuffled cards
-  //numberOfCardsLeftInt.innerHTML = shuffledDeck.length;
+  shuffleDeck();
   //Deal player 2 cards
   dealCard(2, playerCards, playerCardsDisplay);
   playerSetScore();
@@ -42,18 +36,25 @@ const startNewGame = (numDecks) => {
   dealerSetScore();
   //Card 2 face down
   dealCardFaceDown(1, dealerCards, dealerCardsDisplay);
+  //Enable player buttons - Stick Hit
   enablePlayerButtons()
   inPlayButtons()
   gameInProgress = true;
-  if(playerScore === 21) {
+  //If player hits 21 - dealers Go  
+  if (playerScore === 21) {
     playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Dealer's turn...`;
     disablePlayerButtons()
     hideButtons()
-    setTimeout(() => {
-      dealersGo();  
-    }, timeBetweenGoes);    
+    if (cardDelayInt.value < minDelay || dealersTurnInt.checked) {
+      $(dealersGoInt).show()
+    } else {
+      setTimeout(() => {
+        dealersGo();
+      }, cardDelayInt.value);
+    };
+    //Else Player to select action
   } else {
-  playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Hit or Stick?`
+    playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Hit or Stick?`
 
   }
 }
@@ -62,6 +63,7 @@ const startNewGame = (numDecks) => {
 ////////Deal New Hand/////////////
 ////////////////////////////////
 
+//As Above but with game in progress, could merge this with the above to reduce code.  
 
 const dealNewHand = () => {
   if (!gameInProgress) {
@@ -78,9 +80,15 @@ const dealNewHand = () => {
     dealCardFaceDown(1, dealerCards, dealerCardsDisplay);
     if (playerScore === 21) {
       playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Dealer's turn...`
-      setTimeout(() => {
-        dealersGo();
-      }, timeBetweenGoes);
+
+      if (cardDelayInt.value < minDelay || dealersTurnInt.checked) {
+        $(dealersGoInt).show()
+      } else {
+        setTimeout(() => {
+          dealersGo();
+        }, cardDelayInt.value);
+      };
+
     } else {
       playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Hit or Stick?`
       enablePlayerButtons()
@@ -93,27 +101,35 @@ const dealNewHand = () => {
 }
 
 
-
-
 /////////////////////////////
 /////DEAL CARDS////////////
 /////////////////////////////
 
+
+//Add shuffled cards to the relevant array 
+
 const dealCard = (num, arrCards, arrDisplay) => {
-  for (let i=0; i < num; i++) {
+  for (let i = 0; i < num; i++) {
     let card = shuffledDeck.shift();
-  arrCards.push(card);
-  // countCards();
-};
-  displayCards(arrCards, arrDisplay);
+    arrCards.push(card);
+    // countCards();
+  };
+  if (useImagesInt.checked) {
+    displayCards(arrCards, arrDisplay);
+    console.log('images')
+  } else {
+    displayCardsNoImages(arrCards, arrDisplay);
+  }
 }
 
+//as above but facedown for dealer's second card
+
 const dealCardFaceDown = (num, arrCards, arrDisplay) => {
-  for (let i=0; i < num; i++) {
+  for (let i = 0; i < num; i++) {
     let card = shuffledDeck.shift();
-  arrCards.push(card);
-  // countCards();
-};
+    arrCards.push(card);
+    // countCards();
+  };
 }
 
 
@@ -122,69 +138,49 @@ const dealCardFaceDown = (num, arrCards, arrDisplay) => {
 //////////////////////////////
 
 const scoreCounter = (arrCards, arrScore, noCards, score) => {
-  if (score !== 'BUST' ) {
-  for(i=noCards; i<arrCards.length; i++) {
-    switch (arrCards[i]['card']) {
-      case 'A':
-        if(arrScore.length === 1) {
-          arrScore.push(arrScore[0]);
-          arrScore[0] = (arrScore[0] * 1) + 1;
-          arrScore[1] = (arrScore[1] * 1) + 11;
-        }else{
-          arrScore[0] = (arrScore[0] * 1) + 1;
-          arrScore[1] = (arrScore[1] * 1 ) + 1;
-        }
-        break;
-      case 'J': case 'Q': case 'K':
-        if(arrScore.length === 1) {
-          arrScore[0] = (arrScore[0] * 1 ) + 10;
-        }else{
-          arrScore[0] = (arrScore[0] * 1 ) + 10;
-          arrScore[1] = (arrScore[1] * 1) + 10;
-        }
-        break;
-      default:
-        if(arrScore.length === 1) {
-          arrScore[0] = (arrScore[0] * 1 ) + (arrCards[i]['card'] * 1 );
-        }else{
-          arrScore[0] = (arrScore[0] * 1 ) + (arrCards[i]['card'] * 1);
-          arrScore[1] = (arrScore[1] * 1 ) + (arrCards[i]['card'] * 1 );
-        }
+  if (score !== 'BUST') {
+    for (i = noCards; i < arrCards.length; i++) {
+      switch (arrCards[i]['card']) {
+        case 'A':
+          if (arrScore.length === 1) {
+            arrScore.push(arrScore[0]);
+            arrScore[0] = (arrScore[0] * 1) + 1;
+            arrScore[1] = (arrScore[1] * 1) + 11;
+          } else {
+            arrScore[0] = (arrScore[0] * 1) + 1;
+            arrScore[1] = (arrScore[1] * 1) + 1;
+          }
+          break;
+        case 'J':
+        case 'Q':
+        case 'K':
+          if (arrScore.length === 1) {
+            arrScore[0] = (arrScore[0] * 1) + 10;
+          } else {
+            arrScore[0] = (arrScore[0] * 1) + 10;
+            arrScore[1] = (arrScore[1] * 1) + 10;
+          }
+          break;
+        default:
+          if (arrScore.length === 1) {
+            arrScore[0] = (arrScore[0] * 1) + (arrCards[i]['card'] * 1);
+          } else {
+            arrScore[0] = (arrScore[0] * 1) + (arrCards[i]['card'] * 1);
+            arrScore[1] = (arrScore[1] * 1) + (arrCards[i]['card'] * 1);
+          }
+      }
     }
-}return arrScore
-}
+    return arrScore
+  }
 }
 /////////////////////////////////////////////////////////////////////////
-///////CHECK SCORES - HOW DO I REPLACE THE BELOW WITH A UNIFORM FUNCTION?//////////
+///////CHECK SCORES - <21, 21, BUST//////////
 /////////////////////////////////////////////////////////////////
-
-const checkScore = (score, arrScore) => {
-  if(arrScore.length > 1 ) {
-    if(arrScore[0] === 21 || arrScore[1] === 21) {
-      arrScore.pop();
-      arrScore[0] = 21;
-      score = arrScore[0];
-    } else if (arrScore[1] > 21) {
-      arrScore.pop();
-      score = arrScore[0];
-    } else {
-      score = arrScore[1];
-    }
-  } else {
-    if(arrScore[0] > 21) {
-      score = 'BUST'
-    } else {
-      score = arrScore[0];
-    }
-  }
-  return score
-}
-
 
 
 const playerCheckScore = (arrScore) => {
-  if(arrScore.length > 1 ) {
-    if(arrScore[0] === 21 || arrScore[1] === 21) {
+  if (arrScore.length > 1) {
+    if (arrScore[0] === 21 || arrScore[1] === 21) {
       arrScore.pop();
       arrScore[0] = 21;
       playerScore = arrScore[0];
@@ -195,18 +191,18 @@ const playerCheckScore = (arrScore) => {
       playerScore = arrScore[1];
     }
   } else {
-    if(arrScore[0] > 21) {
+    if (arrScore[0] > 21) {
       playerScore = 'BUST'
     } else {
       playerScore = arrScore[0];
     }
   }
   return playerScore
-} 
+}
 
 const dealerCheckScore = (arrScore) => {
-  if(arrScore.length > 1 ) {
-    if(arrScore[0] === 21 || arrScore[1] === 21) {
+  if (arrScore.length > 1) {
+    if (arrScore[0] === 21 || arrScore[1] === 21) {
       arrScore.pop();
       arrScore[0] = 21;
       dealerScore = arrScore[0];
@@ -217,14 +213,14 @@ const dealerCheckScore = (arrScore) => {
       dealerScore = arrScore[1];
     }
   } else {
-    if(arrScore[0] > 21) {
+    if (arrScore[0] > 21) {
       dealerScore = 'BUST'
     } else {
       dealerScore = arrScore[0];
     }
   }
   return dealerScore
-} 
+}
 
 
 ////////////////////////////////
@@ -233,33 +229,42 @@ const dealerCheckScore = (arrScore) => {
 ////////
 
 const playerHit = () => {
-if (gameInProgress) {
-  if (playerScore < 21 && playerScore !== 'BUST') {
-    dealCard(1, playerCards, playerCardsDisplay);
-    // setTimeout(() => {
-      playerSetScore();
-    // }, timeBetweenGoes);
-    if (playerScore === 'BUST') {
-      playerInfoDisplayInt.children[0].innerHTML = `Player is ${playerScore} : Dealer's turn...`;
-      disablePlayerButtons()
-      hideButtons()
+  if (gameInProgress) {
+    if (playerScore < 21 && playerScore !== 'BUST') {
+      dealCard(1, playerCards, playerCardsDisplay);
       setTimeout(() => {
-        dealersGo();
-      }, timeBetweenGoes);
-    } else if (playerScore === 21) {
-      playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Dealer's turn...`;
-      disablePlayerButtons()
-      hideButtons()
-      setTimeout(() => {
-        dealersGo();
-      }, timeBetweenGoes);
+        playerSetScore();
+        if (playerScore === 'BUST') {
+          playerInfoDisplayInt.children[0].innerHTML = `Player is ${playerScore} : Dealer's turn...`;
+          disablePlayerButtons()
+          hideButtons()
+          if (cardDelayInt.value < minDelay || dealersTurnInt.checked) {
+            $(dealersGoInt).show()
+          } else {
+            setTimeout(() => {
+              dealersGo();
+            }, cardDelayInt.value);
+          };
+        } else if (playerScore === 21) {
+          playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Dealer's turn...`;
+          disablePlayerButtons()
+          hideButtons()
+          if (cardDelayInt.value < minDelay || dealersTurnInt.checked) {
+            $(dealersGoInt).show()
+          } else {
+            setTimeout(() => {
+              dealersGo();
+            }, cardDelayInt.value);
+          };
+        } else {
+          playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Hit or Stick?`
+          enablePlayerButtons();
+        };
+      }, (cardDelayInt.value * .5));
     } else {
-      playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Hit or Stick?`
-    };
-  } else {
-    alert('No game currently in progress')
+      alert('No game currently in progress')
+    }
   }
-}
 };
 
 ////////////////////////////////
@@ -272,9 +277,14 @@ const playerStick = () => {
     playerInfoDisplayInt.children[0].innerHTML = `Player sticks on ${playerScore}. Dealer's go'.`;
     disablePlayerButtons()
     hideButtons()
-    setTimeout(() => {
-      dealersGo();
-    }, timeBetweenGoes);
+
+    if (cardDelayInt.value < minDelay || dealersTurnInt.checked) {
+      $(dealersGoInt).show()
+    } else {
+      setTimeout(() => {
+        dealersGo();
+      }, cardDelayInt.value);
+    };
 
   } else {
     alert('No game currently in progress')
@@ -286,112 +296,102 @@ const playerStick = () => {
 ////////////////////////////////
 
 const dealersGo = () => {
-  // console.log('Before = ' + dealersTurnActive)
-  if(!dealersTurnActive) {
-    // console.log('Starting = turn over first card')
-    //playerInfoDisplayInt.children[0].innerHTML = `Dealer's turn!`
-    displayCards(dealerCards, dealerCardsDisplay)
-    dealerSetScore()    
-    // setTimeout(() => {
-    // //Why do I never see this displayed?  Is it queued and instantly overwritten by the next message?  Either way, the code gives the desired result.  Need to understand asynchronous/synchronous better.
-    // playerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}!`
-    // // console.log('During = turn over first card')
-    // }, timeBetweenGoes);
-    
+  if (!dealersTurnActive) {
+    //If dealers first go, this turns over the covered second card
+    if (useImagesInt.checked) {
+      displayCards(dealerCards, dealerCardsDisplay);
+      console.log('images')
+    } else {
+      displayCardsNoImages(dealerCards, dealerCardsDisplay);
+    }
+    //Calculate dealers score
+    dealerSetScore()
     setTimeout(() => {
       dealersTurnActive = true;
+      //restart function - recursion
       dealersGo()
-    }, timeBetweenGoes);
-  }else {
-  if(dealerScore === 'BUST') {
-    // console.log('Starting = dealerscore bust')
-    playerInfoDisplayInt.children[0].innerHTML = `Dealer has gone bust!`
-    setTimeout(()=> {
-    compareScores();
-    // console.log('During = dealerscore bust')
-  }, timeBetweenGoes)
-  } else if (dealerScore > 16 ) {
-    // console.log('Starting = dealer score > 16')
-    playerInfoDisplayInt.children[0].innerHTML = `Dealer sticks on ${dealerScore}.`
-    setTimeout(()=> {
-    compareScores();
-    // console.log('During = dealer score > 16')
-  }, timeBetweenGoes)
+    }, cardDelayInt.value);
   } else {
-    // console.log('Sktarting = Dealers turn else')
-    // console.log('DTE Before= ' + dealersTurnActive)
-    playerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}. Dealer Hits.`
-   
-   setTimeout(() => {
-    dealCard(1, dealerCards, dealerCardsDisplay)
-    dealerSetScore()
-    setTimeout(()=> {
-
-      // console.log('During = Dealers turn else')
-      // console.log('DTE During = ' + dealersTurnActive)
-      dealersTurnActive = true;
-      dealersGo()
-    }, timeBetweenGoes);
-   }, timeBetweenGoes);
-  }
+    //If dealer bust, go to compare scores
+    if (dealerScore === 'BUST') {
+      playerInfoDisplayInt.children[0].innerHTML = `Dealer has gone bust!`
+      setTimeout(() => {
+        compareScores();
+      }, (cardDelayInt.value * 1.5))
+      //If dealer score > 16 = Stick and compare scores
+    } else if (dealerScore > 16) {
+      playerInfoDisplayInt.children[0].innerHTML = `Dealer sticks on ${dealerScore}.`
+      setTimeout(() => {
+        compareScores();
+      }, (cardDelayInt.value * 1.5))
+      //If dealer score < 17 = Hit and restart function
+    } else {
+      playerInfoDisplayInt.children[0].innerHTML = `Dealer is on ${dealerScore}. Dealer Hits.`
+      setTimeout(() => {
+        dealCard(1, dealerCards, dealerCardsDisplay)
+        dealerSetScore()
+        setTimeout(() => {
+          dealersTurnActive = true;
+          dealersGo()
+        }, cardDelayInt.value);
+      }, cardDelayInt.value);
+    }
   }
   dealersTurnActive = false
 }
 
-  ////////////////////////////////
-////////Compare Scores
+////////////////////////////////
+////////Compare Scores and call result
 ////////////////////////////////
 
 const compareScores = () => {
-    if (dealerScore === 'BUST' && playerScore === 'BUST') {
-      playerInfoDisplayInt.children[0].innerHTML = `It's a draw! Both players have gone bust.`
-    } else if (dealerScore === 'BUST') {
-      playerInfoDisplayInt.children[0].innerHTML = `Player wins with ${playerScore}! Dealer has gone bust.`
-      // playerInfoDisplayInt.children[0].innerHTML = `Player Won`
-      gameCountPlayer ++
-      gameCountPInt.innerHTML = `${gameCountPlayer}`
-    } else if (playerScore === 'BUST') { 
-      playerInfoDisplayInt.children[0].innerHTML = `Dealer wins with ${dealerScore}! Player has gone bust`
-      // playerInfoDisplayInt.children[0].innerHTML = `Dealer Won!`
-      gameCountDealer ++
-      gameCountDInt.innerHTML = `${gameCountDealer}`
-    } else if (playerScore > dealerScore) { 
-      playerInfoDisplayInt.children[0].innerHTML = `Player wins with ${playerScore}!`
-      // playerInfoDisplayInt.children[0].innerHTML = `Player Won`
-      gameCountPlayer ++
-      gameCountPInt.innerHTML = `${gameCountPlayer}`
-    } else if (playerScore < dealerScore) { 
-      playerInfoDisplayInt.children[0].innerHTML = `Dealer wins with ${dealerScore}!`
-      // playerInfoDisplayInt.children[0].innerHTML = `Dealer Won!`
-      gameCountDealer ++
-      gameCountDInt.innerHTML = `${gameCountDealer}`
-    } else if (playerScore === dealerScore) { 
-      playerInfoDisplayInt.children[0].innerHTML = `It's a draw! Both players have ${dealerScore}.`
+  if (dealerScore === 'BUST' && playerScore === 'BUST') {
+    playerInfoDisplayInt.children[0].innerHTML = `It's a draw! Both players have gone bust.<br /> Would you like to play another hand?`
+  } else if (dealerScore === 'BUST') {
+    playerInfoDisplayInt.children[0].innerHTML = `Player wins with ${playerScore}! Dealer has gone bust.<br /> Would you like to play another hand?`
+    // playerInfoDisplayInt.children[0].innerHTML = `Player Won`
+    gameCountPlayer++
+    gameCountPInt.innerHTML = `${gameCountPlayer}`
+  } else if (playerScore === 'BUST') {
+    playerInfoDisplayInt.children[0].innerHTML = `Dealer wins with ${dealerScore}! Player has gone bust.<br /> Would you like to play another hand?`
+    // playerInfoDisplayInt.children[0].innerHTML = `Dealer Won!`
+    gameCountDealer++
+    gameCountDInt.innerHTML = `${gameCountDealer}`
+  } else if (playerScore > dealerScore) {
+    playerInfoDisplayInt.children[0].innerHTML = `Player wins with ${playerScore}!<br /> Would you like to play another hand?`
+    // playerInfoDisplayInt.children[0].innerHTML = `Player Won`
+    gameCountPlayer++
+    gameCountPInt.innerHTML = `${gameCountPlayer}`
+  } else if (playerScore < dealerScore) {
+    playerInfoDisplayInt.children[0].innerHTML = `Dealer wins with ${dealerScore}!<br /> Would you like to play another hand?`
+    // playerInfoDisplayInt.children[0].innerHTML = `Dealer Won!`
+    gameCountDealer++
+    gameCountDInt.innerHTML = `${gameCountDealer}`
+  } else if (playerScore === dealerScore) {
+    playerInfoDisplayInt.children[0].innerHTML = `It's a draw! Both players have ${dealerScore}.<br /> Would you like to play another hand?`
   }
-  setTimeout(() => {
-    endOfHand()
-  }, timeBetweenGoes*1.5);
+  endOfHand()
 };
 
 ////////////////////////////////
-////////END OF HAND
+////////END OF HAND - reset
 ////////////////////////////////
 
 const endOfHand = () => {
   gameInProgress = false;
-  debuggingInfoInt.children[0].innerHTML = `Starting deck = ${startingDeck}; Current deck = ${shuffledDeck.length}`
-  playerInfoDisplayInt.children[0].innerHTML = `Good game! <br /> Would you like to play another hand?`
+  // debuggingInfoInt.children[0].innerHTML = `Starting deck = ${startingDeck}; Current deck = ${shuffledDeck.length}`
+  // playerInfoDisplayInt.children[0].innerHTML = `Good game! <br /> Would you like to play another hand?`
   //Reset deck of cards when no. drops below 25% of starting deck.
-  if(shuffledDeck.length < (startingDeck * .25)) {
+  if (shuffledDeck.length < (startingDeck * .25)) {
     createDeck(cardDecksInt.value)
     shuffleDeck()
-  } 
+  }
   enableDealButton()
   dealNewHandButtons()
 }
 
 ////////////////////////////////
-////////RESET GAME
+////////RESET GAME - For Testing
 ////////////////////////////////
 
 
@@ -412,7 +412,7 @@ const resetGame = () => {
 }
 
 ////////////////////////////////
-////////Reset Deck /////////////
+////////Reset Deck - For Testing
 ////////////////////////////////
 
 const resetDeck = () => {
@@ -430,15 +430,3 @@ const resetDeck = () => {
     alert('Game already in progress!')
   }
 };
-
-
-
-
-// const countCards = () => {
-//   numberOfCardsLeftInt.innerHTML = shuffledDeck.length
-// }
-
-
-// dealerCard1.innerHTML = `${shuffledDeck[51].card} ${shuffledDeck[51].suit}`;
-
-// console.log(shuffledDeck[1])
