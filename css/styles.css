@@ -190,7 +190,7 @@ p {
 .play-info-display {
   width: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   background-color: darkgreen;
   opacity: .75;
@@ -206,10 +206,10 @@ p {
   margin: 1rem;
 }
 
-.play-info-display {
+.control-panel {
   width: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   background-color: darkgreen;
   opacity: .75;

@@ -28,6 +28,7 @@ const playerCard10Int = document.getElementById("playerCard10")
 const playerCard11Int = document.getElementById("playerCard11")
 
 const useImagesInt = document.getElementById("card-images")
+const dealersTurnInt = document.getElementById("dealers-turn")
 const cardDelayInt = document.getElementById("card-delay")
 
 const startGameInt = document.getElementById("startGame")
@@ -244,6 +245,7 @@ playerStickInt.addEventListener('click', () => {
 ////////////////////////////////
 
 dealersGoInt.addEventListener('click', () => {
+  $(dealersGoInt).hide()
   dealersGo();
 });
 
