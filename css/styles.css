@@ -3,7 +3,7 @@
 }
 
 #game-controls {
-  display: none;
+  /* display: none; */
 }
 
 html {
@@ -133,10 +133,16 @@ li {
 }
 
 .card {
-  height: auto;
+  height: 138px;
   width: 90px;
   margin: 0.5rem;
   padding: 0px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 1rem;
+}
+.cardRed {
+color: red;
 }
 
 
@@ -159,6 +165,7 @@ li {
 
 .cardVisible {
   visibility: visible;
+
 }
 
 .infoplay-div {
@@ -194,20 +201,10 @@ li {
   margin: 1rem 0.5rem;
 }
 
+
 /* /////////////////// */
 /* //////INFO DISPLAY/////// */
 /* /////////////////// */
-
-.dbInfo {
-  min-height: 100px;
-  min-width: 500px;
-  background-color: darkgreen;
-  opacity: .75;
-  border-radius: 1rem;
-  color: white;
-  font-family: 'Lato', sans-serif;
-  font-size: 1.25rem;
-}
 
 .score {
   display: flex;
@@ -277,6 +274,7 @@ MEDIA QUERIES
 
   .card {
     width: 120px;
+    height: 184px;
   }
 
   .infoplay-div {

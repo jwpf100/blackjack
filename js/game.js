@@ -105,7 +105,12 @@ const dealCard = (num, arrCards, arrDisplay) => {
     arrCards.push(card);
     // countCards();
   };
+  if(useImagesInt.checked) {
   displayCards(arrCards, arrDisplay);
+  console.log('images')
+} else {
+  displayCardsNoImages(arrCards, arrDisplay);
+}
 }
 
 const dealCardFaceDown = (num, arrCards, arrDisplay) => {
@@ -257,6 +262,7 @@ const playerHit = () => {
             }, timeBetweenGoes);
           } else {
             playerInfoDisplayInt.children[0].innerHTML = `Player is on ${playerScore} : Hit or Stick?`
+            enablePlayerButtons();
           };
         }, timeBetweenGoes);
         } else {
@@ -294,7 +300,15 @@ const dealersGo = () => {
   if (!dealersTurnActive) {
     // console.log('Starting = turn over first card')
     //playerInfoDisplayInt.children[0].innerHTML = `Dealer's turn!`
-    displayCards(dealerCards, dealerCardsDisplay)
+
+    // displayCards(dealerCards, dealerCardsDisplay)
+    if(useImagesInt.checked) {
+      displayCards(dealerCards, dealerCardsDisplay);
+      console.log('images')
+    } else {
+      displayCardsNoImages(dealerCards, dealerCardsDisplay);
+    }
+
     dealerSetScore()
     // setTimeout(() => {
     // //Why do I never see this displayed?  Is it queued and instantly overwritten by the next message?  Either way, the code gives the desired result.  Need to understand asynchronous/synchronous better.

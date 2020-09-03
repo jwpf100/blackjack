@@ -27,6 +27,8 @@ const playerCard11Int = document.getElementById("playerCard11")
 // const cardsShuffledInt = document.getElementById("cardsShuffled")
 // const numberOfCardsLeftInt = document.getElementById("numberOfCardsLeft")
 
+const useImagesInt = document.getElementById("card-images")
+
 const startGameInt = document.getElementById("startGame")
 // const dealerNewCardInt = document.getElementById("dealerNewCard")
 // const playerNewCardInt = document.getElementById("playerNewCard")
@@ -37,6 +39,9 @@ const dealerScoreInt = document.getElementById("dealerScoreDisplay")
 const playerHitInt = document.getElementById("playerHit")
 const playerStickInt = document.getElementById("playerStick")
 const restartGameInt = document.getElementById("restartGame")
+
+const showControlsInt = document.getElementById("showControls")
+const gameControlsInt = document.getElementById("game-controls")
 
 const dealHandInt = document.getElementById("dealHand")
 const resetDeckInt = document.getElementById("resetDeck")
@@ -100,11 +105,32 @@ const displayCards = (arrCard, arrDisplay) => {
   }
 }
 
+const displayCardsNoImages = (arrCard, arrDisplay) => {
+  for (let i = 0; i < arrCard.length; i++) {
+    arrDisplay[i].getElementsByTagName('img')[0].src = ``;
+    if(arrCard[i]['suit'] === 'D') {
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9830`;
+      arrDisplay[i].classList.add('cardRed')
+    } else if (arrCard[i]['suit'] === 'H') {
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9829`;
+      arrDisplay[i].classList.add('cardRed')
+    } else if (arrCard[i]['suit'] === 'C') {
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9827`;
+    } else if (arrCard[i]['suit'] === 'S') { 
+      arrDisplay[i].getElementsByTagName('p')[0].innerHTML = `${arrCard[i]['card']}&#9824`;
+    }
+    arrDisplay[i].classList.add('cardVisible')
+  }
+  console.log('Noimages')
+}
+
+
 const resetCards = (arrDisplay) => {
   for (let i = 0; i < arrDisplay.length; i++) {
     arrDisplay[i].getElementsByTagName('img')[0].src = `./img/cards/blue_back.png`;
     if (i > 1) {
       arrDisplay[i].getElementsByTagName('img')[0].classList.remove('cardVisible');
+      arrDisplay[i].classList.remove('cardVisible');
     }
   }
 }
@@ -160,7 +186,9 @@ resetDeckInt.addEventListener('click', () => {
 ////////////////////////////////
 
 playerHitInt.addEventListener('click', () => {
+  disablePlayerButtons();
   playerHit();
+
 });
 
 ////////////////////////////////
@@ -169,6 +197,18 @@ playerHitInt.addEventListener('click', () => {
 
 playerStickInt.addEventListener('click', () => {
   playerStick();
+});
+
+////////////////////////////////
+////////SHOW CONTORLS/////////////
+////////////////////////////////
+
+showControlsInt.addEventListener('click', () => {
+  if (gameControlsInt.style.display === "none") {
+    gameControlsInt.style.display = "block";
+  } else {
+    gameControlsInt.style.display = "none";
+  }
 });
 
 ////////////////////////////////
