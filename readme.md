@@ -13,3 +13,5 @@ Task:
 Codeworks Assignment
 
 Build a simple Blackjack game using HTML, CSS, JavaScript and jQuery. It’s a single page, that opens in the browser, and lets the user play. You can find Blackjack’s rules here, it’s a relatively simple game. Your implementation just needs to give the "hit" and "stand" options to the player (no betting). Feel free to figure out what UI you prefer, as long as the user understands what is happening and can play multiple games.
+
+Change
