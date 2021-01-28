@@ -1,6 +1,6 @@
 ## Blackjack Card Game
 
-A recreation of blackjack using vanilla CSS, HTML and JavaScript for logic. Responsive site.
+A recreation of blackjack using vanilla CSS, HTML and JavaScript for logic. Responsive layout.
 
 ## Project Status
 
