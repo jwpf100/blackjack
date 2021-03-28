@@ -20,6 +20,7 @@ jobs:
         run: |
           rm -rf public/* \
           cp -r src/ public/
+
       - name: Deploy
         run: aws s3 sync ./public s3://${{ secrets.PROD_AWS_S3_BUCKET_NAME }} --size-only --exclude ".github/*"
 
