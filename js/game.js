@@ -274,7 +274,7 @@ const playerHit = () => {
 const playerStick = () => {
   if (gameInProgress) {
     /////Code to switch to dealer's go
-    playerInfoDisplayInt.children[0].innerHTML = `Player sticks on ${playerScore}. Dealer's go'.`;
+    playerInfoDisplayInt.children[0].innerHTML = `Player sticks on ${playerScore}. Dealer's go.`;
     disablePlayerButtons()
     hideButtons()
 
